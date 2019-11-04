@@ -32,6 +32,7 @@ void print_level(Node* root){
         q.push(NULL);
         int count=1;
         stack <int> stk;
+        stk.push(-100);
         while(q.size()>1){
               if(count%2!=0 && q.front()!=NULL){
                         while(q.front()!=NULL){
@@ -40,19 +41,18 @@ void print_level(Node* root){
                                         q.push(temp->next[0]);
                                 if(temp->next[1])
                                         q.push(temp->next[1]);
-				if(q.size()>1){
-                                cout<<temp->data<<" ";
-				} 
-				if(q.size()==1){
-					cout<<temp->data;
-				}
+                                cout<<temp->data;
                                 q.pop();
+                                if(q.front()!=NULL){cout<<" ";}
                         }
                 }
 
                 if(q.front()==NULL){
                         count++;
                         q.pop();
+                        if(q.front()!=NULL){
+                            cout<<" ";
+                        }
                         q.push(NULL);
                 }
 
@@ -67,8 +67,11 @@ void print_level(Node* root){
                                 q.pop();
                         }
                         while(stk.empty()==false){
-                                cout<<stk.top()<<" ";
+                                cout<<stk.top();
                             stk.pop();
+                            if(stk.top()!=-100){cout<<" ";
+                            }
+                            else{break;}
                         }
                 }
         }
