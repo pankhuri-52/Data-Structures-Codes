@@ -22,9 +22,13 @@ Node* delete_node(Node* root,int value){
 	}
 	return root;
 }
+Node* new_node(int value){
+	Node* node=new Node(value);
+	return node;
+}
 Node* insert(Node* head,int value){
 	if(head==NULL)
-		return NULL;
+		return new_node(value);
 	if(value>head->data)
 		head->next[1]=insert(head->next[1],value);
 	if(value<head->data)
