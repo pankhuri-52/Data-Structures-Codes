@@ -14,6 +14,11 @@ Node* delete_node(Node* root,int value){
 	//cout<<"Hii"<<endl;
 	if(root==NULL)
 		return NULL;
+	/* if(root->data==value && root->next[0]==NULL && root->next[1]==NULL){
+                delete(root);
+                return NULL;
+        }*/
+
 	root->next[0]=delete_node(root->next[0],value);
 	root->next[1]=delete_node(root->next[1],value);
 	if(root->data==value && root->next[0]==NULL && root->next[1]==NULL){
@@ -44,12 +49,13 @@ void inorder(Node* root){
 	inorder(root->next[1]);
 }
 int main(int argc,const char *argv[]){
-	Node* head=insert(head,atoi(argv[1]));
+	Node* head=NULL;
+		head=insert(head,atoi(argv[1]));
 	for(int i=2;i<argc;i++){
              insert(head,atoi(argv[i]));
 	}
 	//cout<<"Hello"<<endl;
-	delete_node(head,6);
+	delete_node(head,31);
 	inorder(head);
 	return 0;
 }
