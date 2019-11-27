@@ -77,7 +77,7 @@ Node* construct_binary(Node* root,int arr[],int start,int end){
 		root->next[1]=construct_binary(root->next[1],arr,2*start+2,end);
 	return root;
 }
-int main(int argc,const char *argv[]){
+int main(int argc,char *argv[]){
 	Node* head=NULL;
 	head=insert(head,atoi(argv[1]));
 	for(int i=1;i<argc;i++){
