@@ -52,6 +52,7 @@ int main(int argc,const char* argv[]){
         for(int i=2;i<argc;i++)
                 root=insert(root,atoi(argv[i]));
         max_heap_util(root,argc-1);
+	cout<<"AFter converting BST to max Heap"<<endl;
         print_postorder(root);
         return 0;
 }
