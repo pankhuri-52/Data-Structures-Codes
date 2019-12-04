@@ -3,24 +3,38 @@
 #include <string>
 using namespace std;
 void rearrange(string str){
-    char prev;
-    queue <char> q;
-    char current;
-    for(int i=0;i<str.length();i++){
-        current=str[i];
-        if(current!=prev){
-        cout<<str[i];
-        prev=current;
-        if(q.empty()==false){
-		char t=q.front();
-            cout<<t;
-	    q.pop();
+    string str2;
+	char prev=str[0];
+	int k=0;
+	str2[k++] = prev;
+	queue <char> q;
+	char current;
+	for(int i=1;i<str.length();i++){
+	    current=str[i];
+	    if(current!=prev){
+	        str2[k++] = current;
+	        prev=current;
+	        if(q.empty()==false){
+		        char t=q.front();
+		        if(prev!=t){
+	                str2[k++] = t;
+	                prev=t;
+	                q.pop();
+		        }
+            }
         }
-      } 
-        else {
-            q.push(str[i]);
-        }
-    }
+	    else{
+	        q.push(str[i]);
+	    }
+	}
+	if(q.empty()!=false){
+		for(int i=0;i<k;i++){
+	        cout<<str2[i];
+	    }	
+	}
+	else{
+		cout<<str;	
+	}
 }
 int main(int argc,const char *argv[]){
     string str=argv[1];
