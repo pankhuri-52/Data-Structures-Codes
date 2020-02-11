@@ -2,7 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 int arr[20][20];
-int count=0;
 void display(int v){
     for(int i=0;i<v;i++){
         for(int j=0;j<v;j++){
