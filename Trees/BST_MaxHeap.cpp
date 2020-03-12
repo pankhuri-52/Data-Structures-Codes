@@ -1,72 +1,109 @@
-#include <iostream>
-using namespace std;
-class Node{
-	public:
-		int data;
-		Node* next[2];
-		Node(int data){
-			this->data=data;
-			next[0]=NULL;
-			next[1]=NULL;
-		}
-};
-void swap(int *a,int *b){
-	int temp=*a;
-	*a=*b;
-	*b=temp;
-}
-void convert(int arr[],int i,int n){
-	int l=2*i+1;
-	int r=2*i+2;
-	int largest=i;
-	if(l<n && arr[l]>arr[i])
-		largest=l;
-	if(r<n && arr[r]>arr[largest])
-		largest=r;
-	if(largest!=i){
-		swap(&arr[i],&arr[largest]);
-		convert(arr,largest,n);
-	}
-}
-void Max_Heap(int arr[],int n){
-	for(int i=(n-2)/2;i>=0;--i){
-		convert(arr,i,n);
-	}
-}
-Node* construct_tree(Node* root,int arr[],int start,int end){
-	if(start>end)
-		return NULL;
-	root=new Node(arr[start]);
-	if(2*start+1<end && arr[2*start+1]!=-1)
-		root->next[0]=construct_tree(root,arr,2*start+1,end);
-	if(2*start+2<end && arr[2*start+2]!=-1)
-		root->next[1]=construct_tree(root,arr,2*start+2,end);
-	return root;
-}
-void postorder(Node* root){
-	if(root==NULL)
-		return;
-	postorder(root->next[0]);
-	postorder(root->next[1]);
-	cout<<root->data<<" ";
-}
-int main(int argc,const char *argv[]){
-    int arr[argc];
-    int k=0;
-    for(int i=1;i<argc;i++){
-        if(atoi(argv[i])!=-1)
-        arr[k++]=atoi(argv[i]);
-    }
-    Max_Heap(arr,k);
-    for(int i=1;i<k;i=i+2){
-	    if(arr[i+1]<arr[i])
-		    swap(&arr[i],&arr[i+1]);
-    }
-    for(int i=0;i<k;i++){
-	    cout<<arr[i]<<" ";
-    }
-    cout<<endl;
-    Node* root=construct_tree(root,arr,0,k);
-    postorder(root);
-    return 0;
-}
+// C++ implementation to convert a given 
+// BST to Max Heap 
+#include <bits/stdc++.h> 
+using namespace std; 
+
+struct Node { 
+	int data; 
+	Node *left, *right; 
+}; 
+
+/* Helper function that allocates a new node 
+with the given data and NULL left and right 
+pointers. */
+struct Node* getNode(int data) 
+{ 
+	struct Node* newNode = new Node; 
+	newNode->data = data; 
+	newNode->left = newNode->right = NULL; 
+	return newNode; 
+} 
+
+// Function prototype for postorder traversal 
+// of the given tree 
+void postorderTraversal(Node*); 
+
+// Function for the inorder traversal of the tree 
+// so as to store the node values in 'arr' in 
+// sorted order 
+void inorderTraversal(Node* root, vector<int>& arr) 
+{ 
+	if (root == NULL) 
+		return; 
+
+	// first recur on left subtree 
+	inorderTraversal(root->left, arr); 
+
+	// then copy the data of the node 
+	arr.push_back(root->data); 
+
+	// now recur for right subtree 
+	inorderTraversal(root->right, arr); 
+} 
+
+void BSTToMaxHeap(Node* root, vector<int> arr, int* i) 
+{ 
+	if (root == NULL) 
+		return; 
+
+	// recur on left subtree 
+	BSTToMaxHeap(root->left, arr, i); 
+
+	// recur on right subtree 
+	BSTToMaxHeap(root->right, arr, i); 
+
+	// copy data at index 'i' of 'arr' to 
+	// the node 
+	root->data = arr[++*i]; 
+} 
+
+// Utility function to convert the given BST to 
+// MAX HEAP 
+void convertToMaxHeapUtil(Node* root) 
+{ 
+	// vector to store the data of all the 
+	// nodes of the BST 
+	vector<int> arr; 
+	int i = -1; 
+
+	// inorder traversal to populate 'arr' 
+	inorderTraversal(root, arr); 
+
+	// BST to MAX HEAP conversion 
+	BSTToMaxHeap(root, arr, &i); 
+} 
+
+// Function to Print Postorder Traversal of the tree 
+void postorderTraversal(Node* root) 
+{ 
+	if (!root) 
+		return; 
+
+	// recur on left subtree 
+	postorderTraversal(root->left); 
+
+	// then recur on right subtree 
+	postorderTraversal(root->right); 
+
+	// print the root's data 
+	cout << root->data << " "; 
+} 
+
+// Driver Code 
+int main() 
+{ 
+	// BST formation 
+	struct Node* root = getNode(4); 
+	root->left = getNode(2); 
+	root->right = getNode(6); 
+	root->left->left = getNode(1); 
+	root->left->right = getNode(3); 
+	root->right->left = getNode(5); 
+	root->right->right = getNode(7); 
+
+	convertToMaxHeapUtil(root); 
+	cout << "Postorder Traversal of Tree:" << endl; 
+	postorderTraversal(root); 
+
+	return 0; 
+} 
