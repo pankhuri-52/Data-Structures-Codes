@@ -12,41 +12,6 @@ class Node{
 			next[1]=NULL;
 		}
 };
-/*void print(Node* root){
-	queue <Node *>q;
-	q.push(root);
-	int flag,flag1;
-	while(q.empty()==false){
-		int count=q.size();
-		flag=0,flag1=0;
-		while(count>0){
-			Node* node=q.front();
-			cout<<node->data<<" ";
-			q.pop();
-			if(node->next[0]!=NULL){ 
-				if(node->next[0]->data<root->data){
-					flag=1;
-				        q.push(node->next[0]);
-				}
-				else{
-					flag1=1;
-					q.push(node->next[1]);
-				}
-			}
-			if(node->next[1]!=NULL){
-				if((node->next[1]->data<root->data) && (flag==0)){
-					q.push(node->next[0]);
-					flag=1;
-				}
-				else if((node->next[1]->data>root->data) && (flag1==0)){
-					q.push(node->next[1]);
-					flag1=1;
-				}
-			}
-			count--; 
-		}
-	}
-}*/
 Node* new_node(int value){
 	Node* node=new Node(value);
 	return node;
