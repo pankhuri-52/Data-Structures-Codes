@@ -1,158 +1,58 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-struct Node
-{
-    int data;
-    struct Node *left;
-    struct Node *right;
-
-    Node(int x){
-        data = x;
-        left = NULL;
-        right = NULL;
-    }
-};
-
-bool isIdentical(Node* a, Node* b);
-
-// Function to Build Tree
-Node *buildTree(string str) {
-    // Corner Case
-    if (str.length() == 0 || str[0] == 'N')
-        return NULL;
-
-    // Creating vector of strings from input
-    // string after spliting by space
-    vector<string> ip;
-
-    istringstream iss(str);
-    for (string str; iss >> str;)
-        ip.push_back(str);
-
-    // Create the root of the tree
-    Node *root = new Node(stoi(ip[0]));
-
-    // Push the root to the queue
-    queue<Node *> queue;
-    queue.push(root);
-
-    // Starting from the second element
-    int i = 1;
-    while (!queue.empty() && i < ip.size()) {
-
-        // Get and remove the front of the queue
-        Node *currNode = queue.front();
-        queue.pop();
-
-        // Get the current node's value from the string
-        string currVal = ip[i];
-
-        // If the left child is not null
-        if (currVal != "N") {
-
-            // Create the left child for the current node
-            currNode->left = new Node(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->left);
-        }
-
-        // For the right child
-        i++;
-        if (i >= ip.size())
-            break;
-        currVal = ip[i];
-
-        // If the right child is not null
-        if (currVal != "N") {
-
-            // Create the right child for the current node
-            currNode->right = new Node(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->right);
-        }
-        i++;
-    }
-
-    return root;
-}
-
-int main() {
-    int tc;
-    scanf("%d ", &tc);
-    while (tc--) {
-        string str, str1;
-        getline(cin, str);
-        Node *rootA = buildTree(str);
-        getline(cin, str1);
-        Node *rootB = buildTree(str1);
-        if (isIdentical(rootA, rootB)) {
-            cout << "Yes\n";
-        } else {
-            cout << "No\n";
-        }
-    }
-    return 0;
-}// } Driver Code Ends
-/* A binary tree node
-
-
-struct Node
-{
-    int data;
-    struct Node* left;
-    struct Node* right;
-    
-    Node(int x){
-        data = x;
-        left = right = NULL;
-    }
-};
-*/
-
-/* Should return true if trees with roots as r1 and 
-   r2 are identical */
-bool isIdentical(Node *r1, Node *r2)
-{
-    if(r1==NULL && r2==NULL)
-     return true;
-    
-    queue <Node*>q1;
-    queue <Node*>q2;
-    
-    q1.push(r1);
-    q2.push(r2);
-    
-    while(q1.empty()==false && q2.empty()==false){
-        Node* temp1=q1.front();
-        Node* temp2=q2.front();
-        
-        q1.pop();
-        q2.pop();
-        
-        // if(q1.empty()==true && q2.empty()==false)
-        //   return false;
-        
-        if(temp1->data!=temp2->data)
-         return false;
-        
-        if(temp1->left!=NULL && temp2->left!=NULL){
-            q1.push(temp1->left);
-            q2.push(temp2->left);
-        } 
-        if((temp1->left==NULL && temp2->left!=NULL) || (temp1->left!=NULL && temp2->left==NULL))
-           return false;
-           
-        if(temp1->right!=NULL && temp2->right!=NULL){
-            q1.push(temp1->right);
-            q2.push(temp2->right);
-        }
-        if((temp1->right==NULL && temp2->right!=NULL) || (temp1->right!=NULL && temp2->right==NULL))
-           return false;
-    }   
-    
-    
-    return true;
-}
+#include <bits/stdc++.h> 
+using namespace std; 
+class node  
+{  
+    public: 
+    int data;  
+    node* left;  
+    node* right;  
+};  
+node* newNode(int data)  
+{  
+    node* Node = new node(); 
+    Node->data = data;  
+    Node->left = NULL;  
+    Node->right = NULL;  
+  
+    return(Node);  
+}  
+int identicalTrees(node* a, node* b)  
+{  
+    /*1. both empty */
+    if (a == NULL && b == NULL)  
+        return 1;  
+  
+    /* 2. both non-empty -> compare them */
+    if (a != NULL && b != NULL)  
+    {  
+        return
+        (  
+            a->data == b->data &&  
+            identicalTrees(a->left, b->left) &&  
+            identicalTrees(a->right, b->right)  
+        );  
+    }  
+    return 0;  
+}  
+int main()  
+{  
+    node *root1 = newNode(1);  
+    node *root2 = newNode(1);  
+    root1->left = newNode(2);  
+    root1->right = newNode(3);  
+    root1->left->left = newNode(4);  
+    root1->left->right = newNode(5);  
+  
+    root2->left = newNode(2);  
+    root2->right = newNode(3);  
+    root2->left->left = newNode(4);  
+    root2->left->right = newNode(5);  
+  
+    if(identicalTrees(root1, root2))  
+        cout << "Both tree are identical.";  
+    else
+        cout << "Trees are not identical.";  
+  
+return 0;  
+}  
+  
