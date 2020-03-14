@@ -1,69 +1,74 @@
-#include <iostream>
-#include <queue>
-using namespace std;
-int arr1[99];
-int z=0;
-class Node{
-    public:
-    int data;
-    Node* next[2];
-    Node(int data){
-        this->data=data;
-        next[0]=NULL;
-        next[1]=NULL;
-    }
-};
-Node* construct_tree(Node* root,int arr[],int start,int end){
-    if(root==NULL)
-    return NULL;
-    
-    root=new Node(arr[start]);
-    if(2*start+1<end && arr[2*start+1]!=0)
-      root->next[0]=construct_tree(root,arr,2*start+1,end);
-    if(2*start+2<end && arr[2*start+2]!=0)
-      root->next[1]=construct_tree(root,arr,2*start+2,end);
-      
-    return root;
-}
-void print_diagonal(Node* root){
-    if (root == NULL) 
-        return; 
-        
-    queue<Node*> q; 
-    q.push(root); 
-    q.push(NULL); 
-  
-    while (!q.empty()) { 
-        Node* temp = q.front(); 
-        q.pop(); 
-        if (temp == NULL) { 
-            if (q.empty()) 
-                return; 
-           // cout << endl; 
-            q.push(NULL); 
-        } 
-        else { 
-            while (temp) { 
-                //cout << temp->data << " ";
-                arr1[z++]=temp->data;
-                if (temp->next[0]) 
-                    q.push(temp->next[0]); 
-                temp = temp->next[1]; 
-            } 
-        } 
-    } 
+// C++ program for diagnoal traversal of Binary Tree 
+#include <bits/stdc++.h> 
+using namespace std; 
+
+// Tree node 
+struct Node 
+{ 
+	int data; 
+	Node *left, *right; 
+}; 
+
+/* root - root of the binary tree 
+d - distance of current line from rightmost 
+		-topmost slope. 
+diagonalPrint - multimap to store Diagonal 
+				elements (Passed by Reference) */
+void diagonalPrintUtil(Node* root, int d, 
+					map<int, vector<int>> &diagonalPrint) 
+{ 
+	// Base case 
+	if (!root) 
+		return; 
+
+	// Store all nodes of same line together as a vector 
+	diagonalPrint[d].push_back(root->data); 
+
+	// Increase the vertical distance if left child 
+	diagonalPrintUtil(root->left, d + 1, diagonalPrint); 
+
+	// Vertical distance remains same for right child 
+	diagonalPrintUtil(root->right, d, diagonalPrint); 
 } 
-int main(int argc,const char *argv[]){
-    int arr[argc];
-    int k=0;
-    for(int i=1;i<argc;i++){
-        arr[k++]=atoi(argv[i]);
-    }
-    Node* root=construct_tree(root,arr,0,argc-1);
-    print_diagonal(root);
-    for(int i=0;i<z-1;i++){
-        cout<<arr1[i]<<" ";
-    }
-    cout<<arr1[z-1];
-    return 0;
-}
+
+// Print diagonal traversal of given binary tree 
+void diagonalPrint(Node* root) 
+{ 
+	// create a map of vectors to store Diagonal elements 
+	map<int, vector<int> > diagonalPrint; 
+	diagonalPrintUtil(root, 0, diagonalPrint); 
+
+	cout << "Diagonal Traversal of binary tree : n"; 
+	for (auto it = diagonalPrint.begin(); 
+		it != diagonalPrint.end(); ++it) 
+	{ 
+		for (auto itr = it->second.begin(); 
+			itr != it->second.end(); ++itr) 
+			cout << *itr << ' '; 
+
+		cout << 'n'; 
+	} 
+} 
+Node* newNode(int data) 
+{ 
+	Node* node = new Node; 
+	node->data = data; 
+	node->left = node->right = NULL; 
+	return node; 
+} 
+int main() 
+{ 
+	Node* root = newNode(8); 
+	root->left = newNode(3); 
+	root->right = newNode(10); 
+	root->left->left = newNode(1); 
+	root->left->right = newNode(6); 
+	root->right->right = newNode(14); 
+	root->right->right->left = newNode(13); 
+	root->left->right->left = newNode(4); 
+	root->left->right->right = newNode(7); 
+
+	diagonalPrint(root); 
+
+	return 0; 
+} 
