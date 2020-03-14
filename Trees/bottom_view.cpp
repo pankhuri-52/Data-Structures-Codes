@@ -1,23 +1,15 @@
-/ { Driver Code Starts
-// C++ Program to print Bottom View of Binary Tree
 #include<bits/stdc++.h>
 using namespace std;
-
-// Tree node class
 struct Node
 {
-    int data; //data of the node
-    Node *left, *right; //left and right references
-
-    // Constructor of tree node
+    int data;
+    Node *left, *right;
     Node(int key)
     {
         data = key;
         left = right = NULL;
     }
 };
-
-// Method that prints the bottom view.
 void bottomView(Node *root);
 
 Node* make_tree()
@@ -63,8 +55,6 @@ Node* make_tree()
 	}
 	return head;
 }
-
-/* Driver program to test size function*/
 int main()
 {
   int t;
@@ -79,24 +69,6 @@ int main()
   }
   return 0;
 }
-
-// } Driver Code Ends
-/* Tree node class
-
-struct Node
-{
-    int data; //data of the node
-    Node *left, *right; //left and right references
-
-    // Constructor of tree node
-    Node(int key)
-    {
-        data = key;
-        left = right = NULL;
-    }
-}; */
-
-// Method that prints the bottom view.
 void bottomView(Node *root)
 {
    if(root==NULL)
