@@ -38,16 +38,11 @@ void print_level(Node* root){
 			q.pop();
 			cout<<q.front()->data<<" ";
 			q.push(NULL);
-			//cout<<"\n";
 		} else {
 			if(curr->next[0])
 				q.push(curr->next[0]);
 			if(curr->next[1])
 				q.push(curr->next[1]);
-			/*if(curr->next[0]!=NULL)
-				cout<<curr->next[0]->data<<" ";
-			else
-				cout<<curr->next[1]->data<<" ";*/
 		}
 	}
 }
