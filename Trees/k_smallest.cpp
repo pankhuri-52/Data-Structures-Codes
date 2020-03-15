@@ -1,53 +1,112 @@
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include<iostream>
 using namespace std;
-class Node{
-    public:
-    int data;
-    Node* next[2];
-    Node(int data){
-        this->data=data;
-        next[0]=NULL;
-        next[1]=NULL;
-    }
+
+#define ARRAY_SIZE(arr) sizeof(arr)/sizeof(arr[0])
+typedef struct Node Node;
+
+struct Node
+{
+	int data;
+	int lCount;
+	struct Node *left;
+	struct Node *right;
+	
+	Node(int x){
+	    data = x;
+	    lCount = 0;
+	    left = NULL;
+	    right = NULL;
+	}
 };
-Node* construct_tree(Node* root,int arr[],int start,int end){
-    if(start>end)
-    return NULL;
-    root=new Node(arr[start]);
-    if(2*start+1<end && arr[2*start+1]!=-1)
-    root->next[0]=construct_tree(root,arr,2*start+1,end);
-    if(2*start+2<end && arr[2*start+2]!=-1)
-    root->next[1]=construct_tree(root,arr,2*start+2,end);
+int KthSmallestElement(Node *root, int k);
+
+Node *insert_node(Node *root, Node* node)
+{
+    Node *pTraverse = root;
+    Node *currentParent = root;
+ 
+    while(pTraverse)
+    {
+        currentParent = pTraverse;
+ 
+        if( node->data < pTraverse->data )
+        {
+            pTraverse->lCount++;
+            pTraverse = pTraverse->left;
+        }
+        else
+        {
+            pTraverse = pTraverse->right;
+        }
+    }
+    if( !root )
+    {
+        root = node;
+    }
+    else if( node->data < currentParent->data )
+    {
+        currentParent->left = node;
+    }
+    else
+    {
+        currentParent->right = node;
+    }
+ 
     return root;
 }
-void k_smallest(int arr[],int k,int index){
-   for(int i=0;i<k;i++){
-       for(int j=i+1;j<k;j++){
-           if(arr[i]>arr[j]){
-               int temp=arr[i];
-               arr[i]=arr[j];
-               arr[j]=temp;
-           }
-       }
-   }
-   int sum=0;
-   for(int i=0;i<index;i++){
-	   if(arr[i]==-1){
-	   	++index;
-		continue;
-	   }
-       sum=sum+arr[i];
-   }
-   cout<<sum;
-}
-int main(int argc,const char *argv[]){
-    int index=atoi(argv[1]);
-    int arr[argc];
-    int k=0;
-    for(int i=2;i<argc;i++){
-        arr[k++]=atoi(argv[i]);
+
+Node* binary_search_tree(Node *root, int keys[], int const size)
+{
+    int iterator;
+    Node *new_node = NULL;
+ 
+    for(iterator = 0; iterator < size; iterator++)
+    {
+        new_node = new Node(keys[iterator]);
+        /* insert into BST */
+        root = insert_node(root, new_node);
     }
-    Node* root=construct_tree(root,arr,0,k);
-    k_smallest(arr,k,index);
+ 
+    return root;
+}
+ 
+ int main(void)
+{
+	int t;
+	cin>>t;
+	while(t--){
+		int n;
+		cin>>n;
+    int ele[n];
+	for(int i=0;i<n;i++){
+		cin>>ele[i];
+	}
+    int k;
+	cin>>k;
+    Node* root = NULL;
+    root = binary_search_tree(root, ele, ARRAY_SIZE(ele));
+        printf("%d\n",KthSmallestElement(root, k));
+	}
     return 0;
+}
+
+//FInal thing to read
+#include <climits>
+int KthSmallestElement(Node* root,int *i,int k){
+    if(root==NULL)
+    return INT_MAX;
+    
+    int left=KthSmallestElement(root->left,i,k);
+    if(left!=INT_MAX)
+    return left;
+    if(++*i==k)
+    return root->data;
+    return KthSmallestElement(root->right,i,k);
+}
+int KthSmallestElement(Node *root, int k)
+{
+   int i=0;
+   return KthSmallestElement(root,&i,k);
 }
