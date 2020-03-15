@@ -1,11 +1,5 @@
-// { Driver Code Starts
-//Initial Template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
-
-/* A binary tree node has data, pointer to left child
-   and a pointer to right child */
 struct Node
 {
 	int data;
@@ -18,12 +12,7 @@ struct Node
 	    right = NULL;
 	}
 };
-
-
-/* Computes the number of nodes in a tree. */
 void printSibling(Node *);
-
-/* Driver program to test size function*/
 int main()
 {
   int t;
@@ -62,21 +51,9 @@ int main()
   }
   return 0;
 }
-
-// } Driver Code Ends
-//User function Template for C++
-/*
- struct Node
- {
-     int data;
-     Node* left, *right;
-}; */
-
-/* Prints the nodes having no siblings.  */
 #include<set>
 #include<algorithm>
 #include<queue>
-//vector<int>s;
 void printSibling(Node* node){
   if(node==NULL)
     return;
