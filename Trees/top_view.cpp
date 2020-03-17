@@ -52,8 +52,6 @@ int main()
             }
             i-=2;
         }
-//        inorder(root);
-//        cout<<endl;
         topView(root);
         cout << endl;
     }
@@ -61,23 +59,6 @@ int main()
 }
 
 
-
-
-// } Driver Code Ends
-//Structure of binary tree
-/*struct Node
-struct Node
-{
-    int data;
-    struct Node* left;
-    struct Node* right;
-    
-    Node(int x){
-        data = x;
-        left = right = NULL;
-    }
-};*/
-// function should print the topView of the binary tree
 void topView(struct Node *root)
 {
     if(root==NULL)
