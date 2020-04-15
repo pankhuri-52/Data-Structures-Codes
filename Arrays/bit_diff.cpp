@@ -6,7 +6,7 @@ void sum_of_bits(int arr[],int n){
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             int count=arr[i]^arr[j];
-            sum=sum+__builtin_popcount(count);
+            sum=sum+__builtin_popcount(count); // __builtin_popcount(int x) tells the number of set bits in an integer x
         }
     }
     cout<<sum<<endl;
