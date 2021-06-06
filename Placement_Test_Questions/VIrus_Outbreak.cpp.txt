@@ -1,0 +1,49 @@
+/* Read input from STDIN. Print your output to STDOUT*/
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <limits.h>
+#include <stdbool.h>
+#include <cstring>
+#include <iostream>
+using namespace std;
+bool isSubsequence(char str1[], char str2[], int m,int n){
+    if(m==0)
+        return true;
+
+    if(n==0)
+        return false;
+
+    if(str1[m-1] == str2[n-1])
+        return isSubsequence(str1, str2, m-1, n-1);
+    
+    return isSubsequence(str1, str2, m, n-1);
+}
+
+int main(int argc, char *a[])
+{
+    string virusc;
+    cin>>virusc;
+    int virusc_len = virusc.length();
+    char new_virus[virusc_len + 1];
+    strcpy(new_virus, virusc.c_str());
+
+    int n;
+    cin>>n;
+    string bloodc[n];
+    for(int i=0;i<n;i++){
+        cin>>bloodc[i];
+    }
+
+    for(int i=0;i<n;i++) {
+        int size1 = strlen(new_virus);
+        int blood_len = bloodc[i].length();
+        char new_array[blood_len + 1];
+        strcpy(new_array, bloodc[i].c_str());
+        int size2 = strlen(new_array);
+        isSubsequence(new_array,new_virus,size2,size1) 
+        ? cout<<"POSITIVE\n" : cout<<"NEGATIVE\n";
+    }
+}
