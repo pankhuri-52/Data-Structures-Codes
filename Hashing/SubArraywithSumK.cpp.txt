@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+    public:
+    int findSubArraySum(int Arr[], int N, int k)
+    {
+        /* First Approach:
+           1. Traversing the whole array and then making subarrays and then
+              adding it to see if it matches the given sum // Order of O(N^3);
+              
+           Second Approach:
+           1. Make another array and start adding the sum for each element
+              e.g.
+              for array : Arr = {9, 4, 20, 3, 10, 5}
+              new_array : new_arr = {9, 13, 33, 36, 46, 51}
+           2. Now for checking if the sum of subarray is equal to k, you need
+             to traverse ahead making the subarray by decreasing the values of the 
+              elements you are leaving behind // Order of O(N^2);
+           3. We are taking a map and inserting sum and its count 
+              and then we are doing the same as in approach 2 but also inserting the 
+              same in the map
+        */
+           int sum = 0;
+           int count = 0;
+           unordered_map<int,int> mp;
+        
+           for(int i=0;i<N;i++){
+               sum = sum + Arr[i];
+               
+               if(sum == k){
+                   count++;
+               }
+            
+               if(mp.find(sum - k) != mp.end())
+                 count = count + mp[sum - k];
+    
+               
+               mp[sum]++;
+               
+           }
+           
+           return count;
+    }
+};
+
+// { Driver Code Starts.
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int N;
+        cin >> N;
+        int Arr[N];
+        for(int i=0;i<N;i++)    
+            cin>>Arr[i];
+        int k;
+        cin>>k;
+        Solution obj;
+        cout<<obj.findSubArraySum(Arr, N, k)<<endl;
+    }
+    return 0;
+}  // } Driver Code Ends
