@@ -1,0 +1,55 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution {
+  public:
+    vector<int> vect;
+    //logic for binary representation of a number
+    void bin(int n){
+        
+        if(n>1) bin(n/2);
+        
+        vect.push_back(n%2);
+    }
+    int findPosition(int N) {
+       
+       //binary representation of the number N
+       bin(N);
+      
+       reverse(vect.begin(), vect.end());
+       
+       //checking if there are 0 or more than 1 1's
+       int count_1 = 0;
+       int index = 0;
+       for(int i=vect.size()-1 ;i>=0 ;i--) {
+          if(vect[i] == 1){
+              count_1++;
+              index = i+1;
+          }
+       }
+       
+    //   cout<<index<<endl;
+       if(count_1 > 1 || count_1 == 0)
+       return -1;
+       else
+       return index;
+       
+    }
+};
+
+// { Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+
+        cin>>N;
+
+        Solution ob;
+        cout << ob.findPosition(N) << endl;
+    }
+    return 0;
+}  // } Driver Code Ends
