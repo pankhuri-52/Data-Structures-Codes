@@ -1,0 +1,97 @@
+// { Driver Code Starts
+//Initial Template for C++
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+//User function Template for C++
+struct TrieNode {
+    bool eow;
+    int numOfWords;
+    TrieNode* next[26];
+    
+    TrieNode() {
+        eow = false;
+        numOfWords = 0;
+        for(int i=0; i<26; i++) next[i] = NULL;
+    }
+};
+class Solution
+{
+    private:
+    TrieNode* T;
+    
+    void insertWord(string& word) {
+        TrieNode* root = T;
+        for(int i=0; i<word.length(); i++) {
+            root->numOfWords++;
+            if(!root->next[word[i]-'a']) root->next[word[i]-'a'] = new TrieNode();
+            root = root->next[word[i]-'a'];
+        }
+        root->eow = true;
+    }
+    
+    string getShortestPref(TrieNode* root, string& word) {
+        
+        string pref = "";
+        for(int i=0; i<word.length(); i++) {
+            if(root != T and root->numOfWords == 1) {
+                break;
+            }
+            pref += word[i];
+            root = root->next[word[i]-'a'];
+        }
+        return pref;
+    }
+    
+    public:
+    Solution() {
+        T = new TrieNode();
+    }
+    
+    vector<string> findPrefixes(string arr[], int n)
+    {
+        for(int i=0; i<n; i++)
+            insertWord(arr[i]);
+            
+        vector<string> res;
+        for(int i=0; i<n; i++) {
+            res.push_back(getShortestPref(T, arr[i]));
+        }
+        
+        return res;
+    }
+    
+    
+};
+
+// { Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+
+        string arr[n];
+        for (int i = 0; i < n; i++)
+            cin >> arr[i];
+            
+        Solution ob;
+        vector<string> ans = ob.findPrefixes(arr, n);
+        
+        for (int i = 0; i < ans.size(); i++)
+            cout << ans[i] <<" ";
+
+
+        cout << "\n";
+
+    }
+
+    return 0;
+}
+  // } Driver Code Ends
